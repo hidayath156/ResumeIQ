@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>{{ data.full_name or 'Resume' }} - ResumeIQ</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        /* =========================================================
+           PAGE RESET
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        body.print-page {
+            background: #d8ddd9;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+
+        /* =========================================================
+           PRINT BUTTON
+           ========================================================= */
+
+        .print-actions {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 9999;
+        }
+
+        .print-actions button {
+            padding: 12px 22px;
+            background: #22bd8b;
+            border: 0;
+            border-radius: 6px;
+            color: #03130e;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+
+        /* =========================================================
+           A4 PAPER
+           ========================================================= */
+
+        body.print-page > .resume-preview {
+
+            width: 210mm !important;
+            min-width: 210mm !important;
+            max-width: 210mm !important;
+
+            height: 297mm !important;
+            min-height: 297mm !important;
+
+            margin: 40px auto !important;
+
+            background: white;
+
+            box-sizing: border-box !important;
+
+            overflow: hidden !important;
+
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* =========================================================
+           COMPACT TEMPLATE
+           ========================================================= */
+
+        body.print-page > .resume-preview.compact {
+
+            padding: 24px !important;
+
+            font-size: 9px !important;
+
+            line-height: 1.4 !important;
+        }
+
+
+        /* ---------------------------------------------------------
+           COMPACT HEADER
+           --------------------------------------------------------- */
+
+        body.print-page > .resume-preview.compact .r-head {
+
+            margin: -24px -24px 16px !important;
+
+            padding: 12px 24px !important;
+
+            width: calc(100% + 48px) !important;
+
+            max-width: none !important;
+
+            box-sizing: border-box !important;
+
+            position: relative !important;
+
+            left: auto !important;
+
+            right: auto !important;
+
+            transform: none !important;
+
+            display: flex !important;
+
+            justify-content: space-between !important;
+
+            align-items: center !important;
+
+            gap: 18px !important;
+        }
+
+
+        /* Compact name */
+
+        body.print-page > .resume-preview.compact .r-head h1 {
+
+            font-size: 27px !important;
+
+            line-height: 1.08 !important;
+
+            margin: 0 !important;
+        }
+
+
+        /* Compact role */
+
+        body.print-page > .resume-preview.compact .r-head p {
+
+            font-size: 9px !important;
+
+            line-height: 1.3 !important;
+
+            margin: 4px 0 0 !important;
+        }
+
+
+        /* Compact contact information */
+
+        body.print-page > .resume-preview.compact .r-contact {
+
+            font-size: 7.5px !important;
+
+            line-height: 1.35 !important;
+
+            text-align: right !important;
+
+            max-width: none !important;
+
+            flex: 1 !important;
+        }
+
+
+        /* ---------------------------------------------------------
+           COMPACT TWO COLUMN LAYOUT
+           --------------------------------------------------------- */
+
+        body.print-page > .resume-preview.compact .r-columns {
+
+            display: grid !important;
+
+            grid-template-columns:
+                minmax(0, 2.1fr)
+                minmax(0, 1fr) !important;
+
+            gap: 18px !important;
+
+            width: 100% !important;
+
+            max-width: none !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+        }
+
+
+        /* ---------------------------------------------------------
+           COMPACT SECTIONS
+           --------------------------------------------------------- */
+
+        body.print-page > .resume-preview.compact section {
+
+            margin-bottom: 13px !important;
+
+            break-inside: avoid !important;
+
+            page-break-inside: avoid !important;
+        }
+
+
+        /* Section headings */
+
+        body.print-page > .resume-preview.compact h3 {
+
+            font-size: 8px !important;
+
+            line-height: 1.2 !important;
+
+            letter-spacing: 2px !important;
+
+            margin: 0 0 7px !important;
+
+            padding-bottom: 5px !important;
+
+            border-bottom: 1px solid #cbd2ce !important;
+        }
+
+
+        /* Normal paragraphs */
+
+        body.print-page > .resume-preview.compact p {
+
+            font-size: 8.5px !important;
+
+            line-height: 1.42 !important;
+
+            margin: 0 0 4px !important;
+        }
+
+
+        /* Resume items */
+
+        body.print-page > .resume-preview.compact .r-item {
+
+            margin-bottom: 9px !important;
+
+            break-inside: avoid !important;
+
+            page-break-inside: avoid !important;
+        }
+
+
+        /* Item title */
+
+        body.print-page > .resume-preview.compact .r-title {
+
+            display: flex !important;
+
+            justify-content: space-between !important;
+
+            align-items: baseline !important;
+
+            gap: 10px !important;
+
+            font-size: 8.5px !important;
+
+            line-height: 1.3 !important;
+        }
+
+
+        /* Item dates */
+
+        body.print-page > .resume-preview.compact .r-title span {
+
+            font-size: 7.5px !important;
+
+            white-space: nowrap !important;
+        }
+
+
+        /* Compact skills */
+
+        body.print-page > .resume-preview.compact .skills-list,
+        body.print-page > .resume-preview.compact .skill-list {
+
+            font-size: 9px !important;
+
+            line-height: 1.45 !important;
+        }
+
+
+        /* =========================================================
+           CLASSIC TEMPLATE
+           ========================================================= */
+
+        body.print-page > .resume-preview.classic {
+
+            padding: 34px !important;
+        }
+
+        body.print-page > .resume-preview.classic .r-head {
+
+            width: auto !important;
+
+            max-width: none !important;
+
+            margin: 0 0 22px !important;
+        }
+
+
+        /* =========================================================
+           MODERN TEMPLATE
+           ========================================================= */
+
+        body.print-page > .resume-preview.modern {
+
+            padding: 34px !important;
+        }
+
+        body.print-page > .resume-preview.modern .r-head {
+
+            margin: -34px -34px 24px !important;
+
+            width: calc(100% + 68px) !important;
+
+            max-width: none !important;
+        }
+
+
+        /* =========================================================
+           SCREEN VIEW
+           ========================================================= */
+
+        @media screen {
+
+            body.print-page > .resume-preview {
+
+                width: 210mm !important;
+
+                min-width: 210mm !important;
+
+                max-width: 210mm !important;
+
+                min-height: 297mm !important;
+
+                margin: 40px auto !important;
+            }
+
+        }
+
+
+        /* =========================================================
+           A4 PRINT SETTINGS
+           ========================================================= */
+
+        @page {
+
+            size: A4;
+
+            margin: 0;
+        }
+
+
+        /* =========================================================
+           ACTUAL PRINT
+           ========================================================= */
+
+        @media print {
+
+            html,
+            body {
+
+                width: 210mm !important;
+
+                height: 297mm !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+
+                background: white !important;
+            }
+
+
+            body.print-page {
+
+                width: 210mm !important;
+
+                height: 297mm !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+
+                background: white !important;
+            }
+
+
+            /* Hide button */
+
+            .print-actions {
+
+                display: none !important;
+            }
+
+
+            /* =====================================================
+               EXACT A4 PAGE
+               ===================================================== */
+
+            body.print-page > .resume-preview {
+
+                width: 210mm !important;
+
+                min-width: 210mm !important;
+
+                max-width: 210mm !important;
+
+                height: 297mm !important;
+
+                min-height: 297mm !important;
+
+                max-height: 297mm !important;
+
+                margin: 0 !important;
+
+                box-shadow: none !important;
+
+                background: white !important;
+
+                overflow: hidden !important;
+
+                transform: none !important;
+            }
+
+
+            /* =====================================================
+               COMPACT PRINT
+               ===================================================== */
+
+            body.print-page > .resume-preview.compact {
+
+                padding: 24px !important;
+
+                font-size: 9px !important;
+            }
+
+
+            body.print-page > .resume-preview.compact .r-head {
+
+                margin: -24px -24px 16px !important;
+
+                padding: 12px 24px !important;
+
+                width: calc(100% + 48px) !important;
+
+                max-width: none !important;
+
+                box-sizing: border-box !important;
+            }
+
+
+            body.print-page > .resume-preview.compact .r-columns {
+
+                display: grid !important;
+
+                grid-template-columns:
+                    minmax(0, 2.1fr)
+                    minmax(0, 1fr) !important;
+
+                gap: 18px !important;
+
+                width: 100% !important;
+
+                max-width: none !important;
+            }
+
+
+            /* =====================================================
+               MODERN PRINT
+               ===================================================== */
+
+            body.print-page > .resume-preview.modern .r-head {
+
+                margin: -34px -34px 24px !important;
+
+                width: calc(100% + 68px) !important;
+
+                max-width: none !important;
+            }
+
+
+            /* =====================================================
+               CLASSIC PRINT
+               ===================================================== */
+
+            body.print-page > .resume-preview.classic .r-head {
+
+                margin: 0 0 22px !important;
+
+                width: auto !important;
+
+                max-width: none !important;
+            }
+
+
+            /* =====================================================
+               PAGE BREAK PROTECTION
+               ===================================================== */
+
+            section,
+            .r-item {
+
+                break-inside: avoid !important;
+
+                page-break-inside: avoid !important;
+            }
+
+
+            h1,
+            h2,
+            h3 {
+
+                break-after: avoid !important;
+
+                page-break-after: avoid !important;
+            }
+
+
+            /* =====================================================
+               PRESERVE COLORS
+               ===================================================== */
+
+            * {
+
+                -webkit-print-color-adjust: exact !important;
+
+                print-color-adjust: exact !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="print-page">
+
+
+    <!-- PRINT BUTTON -->
+
+    <div class="print-actions">
+
+        <button onclick="window.print()">
+            Print / Save as PDF
+        </button>
+
+    </div>
+
+
+    <!-- A4 RESUME -->
+
+    <div class="resume-preview {{ data.template }}">
+
+        {% include '_resume_content.html' %}
+
+    </div>
+
+
+</body>
+
+</html>

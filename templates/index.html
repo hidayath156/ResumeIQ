@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block body %}
+<header class="site-head landing-head"><div class="brand">ResumeI<span>Q</span></div><a class="btn" href="{{ url_for('dashboard') if session.get('user_id') else url_for('auth') }}">{{ 'Dashboard' if session.get('user_id') else 'Dashboard' }}</a></header>
+<main class="landing wrap">
+  <div class="eyebrow">♢ &nbsp; Machine learning + generative AI</div>
+  <h1>Write a resume that a<br>model can <span>actually score.</span></h1>
+  <p class="lead">Fill in your education, experience, skills and projects. AI drafts the professional copy, a trained KNN classifier grades the result, and you download a print-ready PDF.</p>
+  <a class="btn primary big" href="{{ url_for('dashboard') if session.get('user_id') else url_for('auth') }}">Open dashboard</a>
+  <section class="feature-grid">
+    <article><div class="icon">▤</div><h3>Three resume templates</h3><p>Modern, Classic and Compact layouts render live as you type, then print to a clean PDF.</p></article>
+    <article><div class="icon">♧</div><h3>KNN quality scoring</h3><p>A scikit-learn K-Nearest Neighbors model rates every resume Strong, Moderate or Needs Improvement from six signals.</p></article>
+    <article><div class="icon">✧</div><h3>AI-written copy</h3><p>Generate summaries, career objectives, skill descriptions and project write-ups from your own profile data.</p></article>
+  </section>
+  <section class="how"><h2>How it works</h2><div class="steps"><div><b>1. Add your details</b><p>Contact, education, experience, skills, projects, certifications.</p></div><div><b>2. Generate copy</b><p>AI writes your summary, objective and descriptions.</p></div><div><b>3. Evaluate</b><p>The KNN model predicts the quality and lists fixes.</p></div><div><b>4. Download</b><p>Pick a template and export a print-ready PDF.</p></div></div></section>
+</main>
+{% endblock %}

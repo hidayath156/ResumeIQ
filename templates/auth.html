@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block body %}
+<div class="auth-page"><div class="brand auth-brand">ResumeI<span>Q</span></div><div class="auth-card">
+<div class="auth-tabs"><button class="active" data-auth="login">Sign in</button><button data-auth="register">Create account</button></div>
+<form id="loginForm"><label>Email</label><input name="email" type="email" autocomplete="email" required><label>Password</label><input name="password" type="password" autocomplete="current-password" required><button class="btn primary full">Sign in</button><div class="or">or</div><button type="button" class="btn google" onclick="alert('Google sign-in requires OAuth credentials; local email/password is fully supported.')">Continue with Google</button></form>
+<form id="registerForm" class="hidden">
+<label>Full name</label><input name="name" type="text" autocomplete="name" minlength="2" maxlength="100" pattern="[A-Za-z][A-Za-z .'-]{1,99}" placeholder="Your full name" required>
+<label>Email</label><input name="email" type="email" autocomplete="email" placeholder="name@example.com" required>
+<label>Password</label><input id="registerPassword" name="password" type="password" autocomplete="new-password" minlength="8" required>
+<div class="password-note"><b>Password requirements</b><span>At least 8 characters</span><span>One uppercase letter (A-Z)</span><span>One lowercase letter (a-z)</span><span>One number (0-9)</span><span>One special character (!@#$%^&*)</span></div>
+<label>Confirm password</label><input id="confirmPassword" name="confirm_password" type="password" autocomplete="new-password" minlength="8" required>
+<button class="btn primary full">Create account</button>
+</form>
+<div id="authMsg" class="msg"></div></div></div>
+{% endblock %}{% block scripts %}<script src="{{ url_for('static', filename='js/auth.js') }}"></script>{% endblock %}

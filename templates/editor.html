@@ -1,0 +1,983 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<style>
+
+/* =========================================================
+   EDITOR LAYOUT
+   Keep original layout, only make left side slightly wider
+   ========================================================= */
+
+.editor {
+    display: grid !important;
+
+    /*
+       Slightly wider left editor
+       Right preview remains fixed at 560px
+    */
+    grid-template-columns: minmax(0, 1.08fr) 560px !important;
+
+    gap: 24px !important;
+
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+.editor-left {
+    min-width: 0;
+    width: 100%;
+}
+
+
+/* =========================================================
+   PREVIEW SIDE
+   ========================================================= */
+
+.preview-side {
+    min-width: 0;
+    width: 560px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.preview-wrap {
+    position: sticky;
+    top: 20px;
+
+    width: 560px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+
+/* =========================================================
+   RESUME PREVIEW
+   ========================================================= */
+
+.preview-wrap .resume-preview {
+
+    width: 560px !important;
+
+    min-width: 560px !important;
+    max-width: 560px !important;
+
+    min-height: 790px;
+
+    background: white;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    margin: 0 auto;
+
+}
+
+
+/* =========================================================
+   MODERN TEMPLATE
+   ========================================================= */
+
+.preview-wrap .resume-preview.modern {
+
+    width: 560px !important;
+
+    min-width: 560px !important;
+
+    max-width: 560px !important;
+
+    box-sizing: border-box;
+
+}
+
+
+/*
+   IMPORTANT:
+   Make modern green header reach the complete
+   left and right edge of the resume.
+*/
+
+.preview-wrap .resume-preview.modern .r-head {
+
+    margin: -34px -34px 24px !important;
+
+    width: calc(100% + 68px) !important;
+
+    max-width: none !important;
+
+    box-sizing: border-box !important;
+
+}
+
+
+/* =========================================================
+   CLASSIC TEMPLATE
+   ========================================================= */
+
+.preview-wrap .resume-preview.classic {
+
+    width: 560px !important;
+
+    min-width: 560px !important;
+
+    max-width: 560px !important;
+
+    box-sizing: border-box;
+
+}
+
+
+/*
+   Classic does not have a colored header,
+   so make the header use the complete width.
+*/
+
+.preview-wrap .resume-preview.classic .r-head {
+
+    width: 100% !important;
+
+    max-width: none !important;
+
+    box-sizing: border-box !important;
+
+}
+
+
+/* =========================================================
+   COMPACT TEMPLATE
+   ========================================================= */
+
+.preview-wrap .resume-preview.compact {
+
+    width: 560px !important;
+
+    min-width: 560px !important;
+
+    max-width: 560px !important;
+
+    box-sizing: border-box;
+
+}
+
+
+/*
+   Make compact header use complete width.
+*/
+
+.preview-wrap .resume-preview.compact .r-head {
+
+    margin: -24px -24px 14px !important;
+
+    width: calc(100% + 48px) !important;
+
+    max-width: none !important;
+
+    box-sizing: border-box !important;
+
+}
+
+
+/* =========================================================
+   RESUME COLUMNS
+   ========================================================= */
+
+.preview-wrap .resume-preview .r-columns {
+
+    width: 100% !important;
+
+    max-width: none !important;
+
+    box-sizing: border-box !important;
+
+}
+
+
+/* =========================================================
+   MODERN / COMPACT TWO COLUMN CONTENT
+   ========================================================= */
+
+.preview-wrap .resume-preview.modern .r-columns,
+.preview-wrap .resume-preview.compact .r-columns {
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 2.1fr)
+        minmax(0, 1fr) !important;
+
+    width: 100% !important;
+
+    max-width: none !important;
+
+    gap: 22px;
+
+    box-sizing: border-box !important;
+
+}
+
+
+/* Compact uses slightly smaller gap */
+
+.preview-wrap .resume-preview.compact .r-columns {
+
+    gap: 14px !important;
+
+}
+
+
+/* =========================================================
+   PREVENT CONTENT FROM CREATING HORIZONTAL OVERFLOW
+   ========================================================= */
+
+.preview-wrap .resume-preview .r-head,
+.preview-wrap .resume-preview .r-columns {
+
+    overflow: visible;
+
+}
+
+
+/*
+   Do NOT apply max-width:100% to every child.
+
+   That was one of the things causing the header/content
+   to stop before the actual resume edge.
+*/
+
+.preview-wrap .resume-preview * {
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   CONTACT INFORMATION
+   ========================================================= */
+
+.preview-wrap .resume-preview .r-contact {
+
+    min-width: 0;
+
+}
+
+
+/* =========================================================
+   SMALLER SCREENS
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .editor {
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 480px) !important;
+
+        gap: 20px !important;
+
+    }
+
+    .preview-side,
+    .preview-wrap {
+
+        width: 480px;
+
+    }
+
+    .preview-wrap .resume-preview {
+
+        width: 480px !important;
+
+        min-width: 480px !important;
+
+        max-width: 480px !important;
+
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .editor {
+
+        display: block !important;
+
+        width: 100%;
+
+    }
+
+    .preview-side {
+
+        width: 100%;
+
+        margin-top: 30px;
+
+        display: flex;
+
+        justify-content: center;
+
+    }
+
+    .preview-wrap {
+
+        width: 100%;
+
+        position: relative;
+
+        display: flex;
+
+        justify-content: center;
+
+    }
+
+    .preview-wrap .resume-preview {
+
+        width: min(560px, 100%) !important;
+
+        min-width: 0 !important;
+
+        max-width: 560px !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   KEEP LEFT FORM RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .editor {
+
+        grid-template-columns: 1fr !important;
+
+    }
+
+    .preview-side {
+
+        width: 100%;
+
+    }
+
+    .preview-wrap {
+
+        width: 100%;
+
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+    .preview-wrap .resume-preview {
+
+        width: 210mm !important;
+
+        min-width: 210mm !important;
+
+        max-width: 210mm !important;
+
+        min-height: 297mm !important;
+
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     EDITOR HEADER
+     ========================================================= -->
+
+<header class="editor-head">
+
+    <a href="{{ url_for('dashboard') }}">
+        ← &nbsp; Resumes
+    </a>
+
+    <input
+        id="resumeTitle"
+        value="{{ data.title }}"
+    >
+
+    <select id="templateSelect">
+
+        <option
+            value="modern"
+            {{ 'selected' if data.template == 'modern' }}
+        >
+            Modern — Emerald header
+        </option>
+
+        <option
+            value="classic"
+            {{ 'selected' if data.template == 'classic' }}
+        >
+            Classic — Serif, centre
+        </option>
+
+        <option
+            value="compact"
+            {{ 'selected' if data.template == 'compact' }}
+        >
+            Compact — Dense single
+        </option>
+
+    </select>
+
+    <span
+        class="saved"
+        id="saveState"
+    >
+        Saved
+    </span>
+
+    <div class="editor-actions">
+
+        <button
+            class="btn dark"
+            id="evaluateBtn"
+        >
+            ♧ &nbsp; Evaluate
+        </button>
+
+        <a
+            class="btn primary"
+            target="_blank"
+            href="{{ url_for('print_resume', resume_id=data.id) }}"
+        >
+            ⇩ &nbsp; Download PDF
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN EDITOR
+     ========================================================= -->
+
+<main class="editor wrap">
+
+
+    <!-- =====================================================
+         LEFT SIDE
+         ===================================================== -->
+
+    <section class="editor-left">
+
+
+        <!-- =================================================
+             COMPLETENESS
+             ================================================= -->
+
+        <div class="completeness">
+
+            <div>
+
+                <span>
+                    Resume completeness
+                </span>
+
+                <b id="completeValue">
+                    {{ features[5] }}%
+                </b>
+
+            </div>
+
+            <div class="progress">
+
+                <i
+                    id="completeBar"
+                    style="width:{{ features[5] }}%"
+                ></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SCORE CARD
+             ================================================= -->
+
+        <div class="score-card">
+
+            <div class="score-line">
+
+                <span
+                    class="badge moderate"
+                    id="categoryBadge"
+                >
+                    {{ category }}
+                </span>
+
+                <span>
+
+                    KNN confidence
+
+                    <b id="confidence">
+                        {{ '%.1f'|format(confidence) }}%
+                    </b>
+
+                    · rubric
+
+                    <b id="rubric">
+                        {{ rubric }}/100
+                    </b>
+
+                    · model test accuracy
+
+                    <b>
+                        {{ '%.1f'|format(accuracy) }}%
+                    </b>
+
+                </span>
+
+            </div>
+
+
+            <div class="metrics">
+
+                <div>
+                    Skills count
+                    <b id="mSkills">
+                        {{ features[0] }}
+                    </b>
+                </div>
+
+                <div>
+                    Education level (0–3)
+                    <b id="mEdu">
+                        {{ features[2] }}
+                    </b>
+                </div>
+
+                <div>
+                    Years of experience
+                    <b id="mExp">
+                        {{ features[1] }}
+                    </b>
+                </div>
+
+                <div>
+                    Project relevance (0–10)
+                    <b id="mProj">
+                        {{ features[4] }}
+                    </b>
+                </div>
+
+                <div>
+                    Completeness %
+                    <b id="mComp">
+                        {{ features[5] }}
+                    </b>
+                </div>
+
+                <div>
+                    Certifications
+                    <b id="mCert">
+                        {{ features[3] }}
+                    </b>
+                </div>
+
+            </div>
+
+
+            <ul id="recommendations">
+
+                <li>
+                    List at least 8 concrete skills —
+                    tools, languages, frameworks.
+                </li>
+
+                <li>
+                    Raise project relevance:
+                    highlight projects closest to your target role.
+                </li>
+
+                <li>
+                    With limited experience,
+                    add more projects to demonstrate ability.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- =================================================
+             TABS
+             ================================================= -->
+
+        <nav class="tabs">
+
+            {% for tab in [
+                'Contact',
+                'Summary',
+                'Education',
+                'Experience',
+                'Skills',
+                'Projects',
+                'Certifications'
+            ] %}
+
+            <button
+                class="tab {{ 'active' if loop.first }}"
+                data-tab="{{ tab|lower }}"
+            >
+                {{ tab }}
+            </button>
+
+            {% endfor %}
+
+        </nav>
+
+
+        <!-- =================================================
+             RESUME FORM
+             ================================================= -->
+
+        <form
+            id="resumeForm"
+            data-id="{{ data.id }}"
+        >
+
+
+            <!-- =============================================
+                 CONTACT
+                 ============================================= -->
+
+            <div
+                class="panel active"
+                data-panel="contact"
+            >
+
+                <div class="form-grid">
+
+                    <label>
+
+                        Full name
+
+                        <input
+                            name="full_name"
+                            value="{{ data.full_name }}"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Target role
+
+                        <input
+                            name="target_role"
+                            value="{{ data.target_role }}"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Email
+
+                        <input
+                            name="email"
+                            value="{{ data.email }}"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Phone
+
+                        <input
+                            name="phone"
+                            value="{{ data.phone }}"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Location
+
+                        <input
+                            name="location"
+                            value="{{ data.location }}"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        Website / portfolio
+
+                        <input
+                            name="website"
+                            value="{{ data.website }}"
+                        >
+
+                    </label>
+
+
+                    <label>
+
+                        LinkedIn
+
+                        <input
+                            name="linkedin"
+                            value="{{ data.linkedin }}"
+                        >
+
+                    </label>
+                    <label>
+                        GitHub
+                    <input
+                        name="github"
+                        value="{{ data.github or '' }}"
+                        placeholder="github.com/username"
+                    >
+                </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 SUMMARY
+                 ============================================= -->
+
+            <div
+                class="panel"
+                data-panel="summary"
+            >
+
+                <div class="field-head">
+
+                    <label>
+                        Professional summary
+                    </label>
+
+                    <button
+                        type="button"
+                        class="generate"
+                        data-kind="summary"
+                    >
+                        ✧ Generate
+                    </button>
+
+                </div>
+
+
+                <textarea
+                    name="summary"
+                    rows="5"
+                >{{ data.summary or '' }}</textarea>
+
+
+                <div class="field-head">
+
+                    <label>
+                        Career objective
+                    </label>
+
+                    <button
+                        type="button"
+                        class="generate"
+                        data-kind="objective"
+                    >
+                        ✧ Generate
+                    </button>
+
+                </div>
+
+
+                <textarea
+                    name="objective"
+                    rows="4"
+                >{{ data.objective or '' }}</textarea>
+
+            </div>
+
+
+            <!-- =============================================
+                 EDUCATION
+                 ============================================= -->
+
+            <div
+                class="panel"
+                data-panel="education"
+            >
+
+                <div id="educationItems"></div>
+
+                <button
+                    type="button"
+                    class="add"
+                    onclick="addEducation()"
+                >
+                    ＋ Add education
+                </button>
+
+            </div>
+
+
+            <!-- =============================================
+                 EXPERIENCE
+                 ============================================= -->
+
+            <div
+                class="panel"
+                data-panel="experience"
+            >
+
+                <div id="experienceItems"></div>
+
+                <button
+                    type="button"
+                    class="add"
+                    onclick="addExperience()"
+                >
+                    ＋ Add experience
+                </button>
+
+            </div>
+
+
+            <!-- =============================================
+                 SKILLS
+                 ============================================= -->
+
+            <div
+                class="panel"
+                data-panel="skills"
+            >
+
+                <div id="skillItems"></div>
+
+                <button
+                    type="button"
+                    class="add"
+                    onclick="addSkill()"
+                >
+                    ＋ Add skill
+                </button>
+
+            </div>
+
+
+            <!-- =============================================
+                 PROJECTS
+                 ============================================= -->
+
+            <div
+                class="panel"
+                data-panel="projects"
+            >
+
+                <div id="projectItems"></div>
+
+                <button
+                    type="button"
+                    class="add"
+                    onclick="addProject()"
+                >
+                    ＋ Add project
+                </button>
+
+            </div>
+
+
+            <!-- =============================================
+                 CERTIFICATIONS
+                 ============================================= -->
+
+            <div
+                class="panel"
+                data-panel="certifications"
+            >
+
+                <div id="certItems"></div>
+
+                <button
+                    type="button"
+                    class="add"
+                    onclick="addCertification()"
+                >
+                    ＋ Add certification
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         RIGHT SIDE - RESUME PREVIEW
+         ===================================================== -->
+
+    <aside class="preview-side">
+
+        <div class="preview-wrap">
+
+            <div
+                id="resumePreview"
+                class="resume-preview {{ data.template }}"
+            ></div>
+
+        </div>
+
+    </aside>
+
+
+</main>
+
+
+<!-- =========================================================
+     RESUME DATA
+     ========================================================= -->
+
+<script
+    id="resumeData"
+    type="application/json"
+>{{ data|tojson }}</script>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script
+    src="{{ url_for('static', filename='js/editor.js') }}"
+></script>
+
+{% endblock %}

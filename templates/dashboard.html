@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<header class="site-head">
+    <div class="brand">ResumeI<span>Q</span></div>
+
+    <div class="head-right">
+        <span>{{ user_email }}</span>
+        <a class="btn signout" href="{{ url_for('logout') }}">
+            ↪ &nbsp; Sign out
+        </a>
+    </div>
+</header>
+
+<main class="dashboard wrap">
+
+    <div class="dash-title">
+        <div>
+            <h1>Your resumes</h1>
+            <p>
+                Every resume is scored by the KNN quality model after you evaluate it.
+            </p>
+        </div>
+
+        <button class="btn primary" onclick="newResume()">
+            ＋ &nbsp; New resume
+        </button>
+    </div>
+
+    <div id="resumeList">
+
+        {% for r in resumes %}
+
+        <article class="resume-row">
+
+            <div>
+                <h2>{{ r.title }}</h2>
+
+                <p>
+                    {{ r.template|capitalize }}
+                    · updated
+                    {{ r.updated_at.strftime('%m/%d/%Y') if r.updated_at else '' }}
+                </p>
+            </div>
+
+            <div class="row-actions">
+
+                <span class="badge {{
+                    'moderate'
+                    if r.category == 'Moderate Resume'
+                    else (
+                        'strong'
+                        if r.category == 'Strong Resume'
+                        else (
+                            'needs'
+                            if r.category
+                            else 'neutral'
+                        )
+                    )
+                }}">
+                    {{
+                        (r.category ~ ' · ' ~ r.score ~ '/100')
+                        if r.category
+                        else 'Not evaluated'
+                    }}
+                </span>
+
+                <a class="btn dark"
+                   href="{{ url_for('editor', resume_id=r.id) }}">
+                    Open
+                </a>
+
+                <button class="icon-btn"
+                        onclick="deleteResume({{ r.id }})">
+                    ♧
+                </button>
+
+            </div>
+
+        </article>
+
+        {% else %}
+
+        <div class="empty">
+            No resumes yet. Create your first resume.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+{% endblock %}

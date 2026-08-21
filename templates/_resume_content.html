@@ -1,0 +1,318 @@
+<header class="r-head">
+
+    <div>
+        <h1>{{ data.full_name or 'YOUR NAME' }}</h1>
+        <p>{{ data.target_role or 'TARGET ROLE' }}</p>
+    </div>
+
+    <div class="r-contact">
+
+        {% if data.email %}
+        <a
+            href="mailto:{{ data.email }}"
+            class="contact-icon"
+            title="Email"
+            aria-label="Email"
+        >
+            <svg viewBox="0 0 24 24">
+                <rect
+                    x="2.5"
+                    y="5"
+                    width="19"
+                    height="14"
+                    rx="1.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                />
+                <path
+                    d="M3.5 6.5L12 13.2L20.5 6.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </a>
+        {% endif %}
+
+
+        {% if data.phone %}
+        <a
+            href="tel:{{ data.phone|replace(' ', '')|replace('-', '')|replace('(', '')|replace(')', '') }}"
+            class="contact-icon"
+            title="Phone"
+            aria-label="Phone"
+        >
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M6.7 2.8L9.4 2.2C10 2.1 10.6 2.4 10.9 3L12.4 6.5C12.6 7 12.5 7.6 12.1 8L10.4 9.7C11.3 11.6 12.4 12.7 14.3 13.6L16 11.9C16.4 11.5 17 11.4 17.5 11.6L21 13.1C21.6 13.4 21.9 14 21.8 14.6L21.2 17.3C21.1 18 20.5 18.5 19.8 18.5C11.7 18.5 5.5 12.3 5.5 4.2C5.5 3.5 6 2.9 6.7 2.8Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                />
+            </svg>
+        </a>
+        {% endif %}
+
+
+        {% if data.website %}
+        <a
+            href="{% if data.website.startswith('http') %}{{ data.website }}{% else %}https://{{ data.website }}{% endif %}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-icon"
+            title="Website / Portfolio"
+            aria-label="Website"
+        >
+            <svg viewBox="0 0 24 24">
+                <circle
+                    cx="12"
+                    cy="12"
+                    r="9.5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                />
+                <path
+                    d="M2.8 12H21.2"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                />
+                <path
+                    d="M12 2.5C14.5 5.2 15.5 8.4 15.5 12S14.5 18.8 12 21.5C9.5 18.8 8.5 15.6 8.5 12S9.5 5.2 12 2.5Z"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                />
+            </svg>
+        </a>
+        {% endif %}
+
+
+        {% if data.github %}
+        <a
+            href="{% if data.github.startswith('http') %}{{ data.github }}{% else %}https://{{ data.github }}{% endif %}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-icon"
+            title="GitHub"
+            aria-label="GitHub"
+        >
+            <svg viewBox="0 0 24 24">
+                <path
+                    fill="currentColor"
+                    d="M12 .7A11.3 11.3 0 0 0 8.4 22.8c.6.1.8-.3.8-.6v-2.1c-3.1.7-3.8-1.3-3.8-1.3-.5-1.3-1.2-1.7-1.2-1.7-1-.8.1-.8.1-.8 1.1.1 1.7 1.2 1.7 1.2 1 .1 1.9-.8 2.1-1.3.1-.8.4-1.2.7-1.5-2.5-.3-5.1-1.3-5.1-5.5 0-1.2.4-2.2 1.1-3-.1-.3-.5-1.4.1-2.9 0 0 .9-.3 3 1.1a10.5 10.5 0 0 1 5.5 0c2.1-1.4 3-1.1 3-1.1.6 1.5.2 2.6.1 2.9.7.8 1.1 1.8 1.1 3 0 4.2-2.6 5.2-5.1 5.5.4.4.7 1 .7 2v2.9c0 .3.2.7.8.6A11.3 11.3 0 0 0 12 .7Z"
+                />
+            </svg>
+        </a>
+        {% endif %}
+
+
+        {% if data.linkedin %}
+        <a
+            href="{% if data.linkedin.startswith('http') %}{{ data.linkedin }}{% else %}https://{{ data.linkedin }}{% endif %}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-icon"
+            title="LinkedIn"
+            aria-label="LinkedIn"
+        >
+            <svg viewBox="0 0 24 24">
+                <path
+                    fill="currentColor"
+                    d="M4.7 3.5A2.2 2.2 0 1 1 4.7 7.9A2.2 2.2 0 0 1 4.7 3.5ZM2.8 9.2H6.6V21H2.8V9.2ZM8.7 9.2H12.3V10.8H12.4C12.9 9.9 14.1 8.8 16.1 8.8C20 8.8 20.7 11.4 20.7 14.8V21H16.9V15.5C16.9 14.2 16.9 12.6 15 12.6C13.1 12.6 12.6 14 12.6 15.4V21H8.7V9.2Z"
+                />
+            </svg>
+        </a>
+        {% endif %}
+
+    </div>
+
+</header>
+
+
+<div class="r-columns">
+
+    <main>
+
+        {% if data.summary %}
+        <section>
+            <h3>PROFESSIONAL SUMMARY</h3>
+            <p>{{ data.summary }}</p>
+        </section>
+        {% endif %}
+
+
+        {% if data.objective %}
+        <section>
+            <h3>CAREER OBJECTIVE</h3>
+            <p>{{ data.objective }}</p>
+        </section>
+        {% endif %}
+
+
+        {% if data.experience %}
+        <section>
+            <h3>EXPERIENCE</h3>
+
+            {% for x in data.experience %}
+
+            <div class="r-item">
+
+                <div class="r-title">
+
+                    <b>
+                        {{ x.role|upper }}
+
+                        {% if x.company %}
+                        · {{ x.company|upper }}
+                        {% endif %}
+                    </b>
+
+                    <span>
+                        {{ x.start_year }} — {{ x.end_year }}
+                    </span>
+
+                </div>
+
+                <p>{{ x.responsibilities }}</p>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+        {% endif %}
+
+
+        {% if data.projects %}
+        <section>
+
+            <h3>PROJECTS</h3>
+
+            {% for x in data.projects %}
+
+            <div class="r-item">
+
+                <div class="r-title">
+
+                    <b>
+                        {{ x.project_name|upper }}
+                    </b>
+
+                    <span>
+                        {{ x.tech_stack|upper }}
+                    </span>
+
+                </div>
+
+                <p>{{ x.description }}</p>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+        {% endif %}
+
+
+        {% if data.education %}
+        <section>
+
+            <h3>EDUCATION</h3>
+
+            {% for x in data.education %}
+
+            <div class="r-item">
+
+                <div class="r-title">
+
+                    <b>
+                        {{ x.degree|upper }}, {{ x.field_of_study|upper }}
+                    </b>
+
+                    <span>
+                        {{ x.start_year }} — {{ x.end_year }}
+                    </span>
+
+                </div>
+
+                <p>
+                    {{ x.institution }}
+
+                    {% if x.grade %}
+                    · {{ x.grade }}
+                    {% endif %}
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+        {% endif %}
+
+    </main>
+
+
+    <aside>
+
+        {% if data.skills %}
+
+        <section>
+
+            <h3>SKILLS</h3>
+
+            {% for x in data.skills %}
+
+            <div class="r-item">
+
+                <b>{{ x.skill|upper }}</b>
+
+                <p>{{ x.description }}</p>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+
+        {% endif %}
+
+
+        {% if data.certifications %}
+
+        <section>
+
+            <h3>CERTIFICATIONS</h3>
+
+            {% for x in data.certifications %}
+
+            <div class="r-item">
+
+                <b>{{ x.certification|upper }}</b>
+
+                <p>
+                    {{ x.issuer }}
+
+                    {% if x.year %}
+                    · {{ x.year }}
+                    {% endif %}
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        </section>
+
+        {% endif %}
+
+    </aside>
+
+</div>
